@@ -1,0 +1,8 @@
+fastapi
+gunicorn
+uvicorn
+sqlalchemy
+python-dotenv
+ezgmail
+psycopg2
+google-genai
