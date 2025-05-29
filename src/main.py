@@ -3,10 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from Data.database import get_db,engine,Base
-from Services.MailService import background_email_adder,get_last_email_id
+from Services.MailService import background_email_adder,get_last_email_timestamp
 import asyncio
 from Setup.MailSetup import initialize_gmail
-from Data.DataCrud import retrieve_from_mail,retrieve_mail_by_id
+from Data.DataCrud import retrieve_from_mail,retrieve_mail_by_id,retrieve_tasks
 from Dto.ApiResponseDto import ApiResponseDto
 from contextlib import asynccontextmanager
 
@@ -17,8 +17,8 @@ async def lifespan(app: FastAPI):
     print("Starting up...")
     initialize_gmail()
 
-    global last_seen_id
-    last_seen_id = await get_last_email_id()
+    global last_seen_timestamp
+    last_seen_timestamp = await get_last_email_timestamp()
     task =  asyncio.create_task(background_email_adder())
     print("Background task started.")
     yield
@@ -64,6 +64,19 @@ async def get_mail_by_id(id: str, db: Session = Depends(get_db)):
             status="success",
             message="Mail retrieved successfully",
             data=mail
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+@app.get("/tasks")
+def get_tasks(db:Session =Depends(get_db)):
+    try:
+        tasks=retrieve_tasks(db)
+        if not tasks:
+            raise HTTPException(status_code=404, detail="Tasks not found")
+        return ApiResponseDto(
+            status="success",
+            message="Tasks retrieved successfully",
+            data=tasks
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
