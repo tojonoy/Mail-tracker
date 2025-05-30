@@ -6,3 +6,4 @@ python-dotenv
 ezgmail
 psycopg2
 google-genai
+twilio
