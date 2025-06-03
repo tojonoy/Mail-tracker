@@ -1,6 +1,6 @@
 import ezgmail
 import asyncio
-from Data.DataCrud import add_to_mail
+from Data.DataCrud import add_to_mail,retrieve_mail_by_id
 from sqlalchemy.orm import Session
 from Services.TaskService import add_to_tasks
 from Setup.GeminiSetup import get_gemini
@@ -34,6 +34,8 @@ async def fetch_new_emails():
                 if last_seen_timestamp and msg_timestamp<= last_seen_timestamp:
                     continue
                 body = msg.body or ""
+                if retrieve_mail_by_id(db, msg.id):
+                        continue
                 summary=get_gemini(body.strip())
                 new_email=MailModel(
                     mail_id=msg.id,

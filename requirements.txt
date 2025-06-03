@@ -6,3 +6,6 @@ python-dotenv
 ezgmail
 psycopg2
 google-genai
+twilio
+openai
+ollama

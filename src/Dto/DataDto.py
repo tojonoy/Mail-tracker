@@ -1,6 +1,6 @@
 from pydantic import BaseModel,ConfigDict
 from datetime import datetime
-
+from typing import Optional
 
 class MailModel(BaseModel):
     mail_id:str
@@ -15,7 +15,7 @@ class TaskModel(BaseModel):
     mail_id:str
     task :str 
     priority:str = "Low"
-    due_date:str
+    due_date:Optional[str]=None
     model_config = ConfigDict(
         from_attributes=True,
         extra="forbid"
