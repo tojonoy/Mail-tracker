@@ -13,7 +13,6 @@ def initialize_gmail():
         ezgmail.init(
     credentialsFile='credentials.json',
     tokenFile='token.json',
-    scopes='https://www.googleapis.com/auth/gmail.readonly'
 )
 
     else:
