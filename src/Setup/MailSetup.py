@@ -11,10 +11,9 @@ def initialize_gmail():
     with open("credentials.json", "w") as f:
         f.write(creds_content)
     shutil.copy(token_path,"token.json")
-    if not ezgmail.isAuthenticated():
-        ezgmail.init(
+    print("Initializing Gmail...")
+    ezgmail.init(
     credentialsFile='credentials.json',
     tokenFile='token.json',
     )
-    else:
-        print("Gmail already initialized.")
+    print("Gmail already initialized.")
