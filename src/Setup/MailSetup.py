@@ -5,15 +5,8 @@ import json
 import shutil
 
 def initialize_gmail():
-
-    creds_content = os.getenv("CREDENTIALS_JSON")
-    token_path = "/etc/secrets/token.json"
-    with open("credentials.json", "w") as f:
-        f.write(creds_content)
-    shutil.copy(token_path,"token.json")
-    print("Initializing Gmail...")
-    ezgmail.init(
-    credentialsFile='credentials.json',
-    tokenFile='token.json',
-    )
-    print("Gmail already initialized.")
+    shutil.copy('/etc/secrets/credentials.json', 'credentials.json')
+    shutil.copy('/etc/secrets/token.pickle', 'token.pickle')
+    print("Credentials and token files copied successfully.")
+    ezgmail.init(credentialsFile='credentials.json', tokenFile='token.pickle')
+    print("Gmail initialized successfully.")
