@@ -31,7 +31,7 @@ def get_gemin(body:str):
 
 def get_gemini(body:str):    
     response = client1.models.generate_content(
-        model="gemini-2.0-flash", contents="Summarize the following email:\n\n" + body
+        model="gemini-1.5-flash", contents="Summarize the following email:\n\n" + body
     )
     print(response.text)
     return response.text
@@ -63,7 +63,7 @@ def get_task_gemini(body:str,timestamp:datetime):
     dynamic_prompt = f"Email received at {timestamp}:\n\n{body}"
     
     response = client1.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-1.5-flash",
         contents=[
             {
                 "role": "user",

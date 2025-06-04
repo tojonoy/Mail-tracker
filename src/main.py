@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException,Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
+from Data.DataCrud import retrieve_tasks_by_priority,retrieve_mails_by_sender
 from Data.database import get_db,engine,Base
 from Services.MailService import background_email_adder,get_last_email_timestamp
 import asyncio
@@ -54,6 +55,19 @@ async def get_mail(db: Session = Depends(get_db)):
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+@app.get("/mail/{sender}")
+async def get_mail_by_sender(sender: str, db: Session = Depends(get_db)):
+    try:
+        mails= retrieve_mails_by_sender(db, sender)
+        if not mails:
+            raise HTTPException(status_code=404, detail="Mail not found")
+        return ApiResponseDto(
+            status="success",
+            message="Mail retrieved successfully",
+            data=mails
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 @app.get("/mail/{id}")
 async def get_mail_by_id(id: str, db: Session = Depends(get_db)):
     try:
@@ -64,6 +78,19 @@ async def get_mail_by_id(id: str, db: Session = Depends(get_db)):
             status="success",
             message="Mail retrieved successfully",
             data=mail
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+@app.get("/tasks/{priority}")
+async def get_tasks_by_priority(priority: str, db: Session = Depends(get_db)):
+    try:
+        tasks = retrieve_tasks_by_priority(db, priority)
+        if not tasks:
+            raise HTTPException(status_code=404, detail="Tasks not found")
+        return ApiResponseDto(
+            status="success",
+            message="Tasks retrieved successfully",
+            data=tasks
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

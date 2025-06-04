@@ -31,3 +31,10 @@ def add_to_task(db:Session,task:TaskModel):
 def retrieve_tasks(db:Session):
     result=db.query(Tasks).all()
     return result
+def retrieve_tasks_by_priority(db:Session,priority:str):
+    result=db.query(Tasks).filter(Tasks.priority==priority).all()
+    return result
+
+def retrieve_mails_by_sender(db:Session,sender:str):
+    result=db.query(Mail).filter(Mail.sender==sender).all()
+    return result
