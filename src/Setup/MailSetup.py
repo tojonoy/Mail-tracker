@@ -2,8 +2,8 @@ import ezgmail
 import os
 
 def initialize_gmail():
-    token_file = '/opt/render/project/src/token.json'
-    credentials_file = '/opt/render/project/src/credentials.json'  # or wherever your credentials are
+    token_file = '/etc/secrets/token.json'
+    #credentials_file = '/opt/render/project/src/credentials.json'  # or wherever your credentials are
 
     if not os.path.exists(token_file):
         raise RuntimeError(f"token.json not found at {token_file}. Authenticate locally first and upload it to Render.")
