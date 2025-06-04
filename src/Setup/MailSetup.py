@@ -6,7 +6,7 @@ import shutil
 
 def initialize_gmail():
     shutil.copy('/etc/secrets/credentials.json', 'credentials.json')
-    shutil.copy('/etc/secrets/token.pickle', 'token.pickle')
+    shutil.copy('/etc/secrets/token.json', 'token.json')
     print("Credentials and token files copied successfully.")
-    ezgmail.init(credentialsFile='credentials.json', tokenFile='token.pickle')
+    ezgmail.init(credentialsFile='credentials.json', tokenFile='token.json')
     print("Gmail initialized successfully.")
